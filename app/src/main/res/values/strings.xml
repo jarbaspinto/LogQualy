@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">LogQualy</string>
+    //Strings de logins main_activity e criar_no_usuario
+    //EditText
+    <string name="login_email">E-mail ou Login</string>
+    <string name="email">E-mail</string>
+    <string name="nome_de_usuario">Nome de usuário</string>
+    <string name="senha">Senha</string>
+
+    //Button
+    <string name="button_login">Log in</string>
+    <string name="button_criar_conta">Criar conta</string>
+
+    //TextView
+    <string name="esqueceu_senha">Esqueceu sua senha?</string>
+    <string name="cria_nova_conta">Crie uma conta</string>
+
+    //Description
+    <string name="description_imageview">ImageView activity</string>
+
+
+</resources>
