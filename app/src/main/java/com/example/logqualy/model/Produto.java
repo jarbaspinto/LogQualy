@@ -1,42 +1,38 @@
 package com.example.logqualy.model;
 
-public class Produto {
+import java.io.Serializable;
 
-    private int id;
+public class Produto  implements Serializable {
 
     private String nameProduct;
-
     private String descriptionProduct;
-
     private String dateProduct;
+    private String photoProduct;
 
-    public Produto(String nameProduct, String descriptionProduct, String dateProduct) {
+    public Produto() {
+    }
+
+    public Produto(String nameProduct, String descriptionProduct, String dateProduct, String photoProduct) {
         this.nameProduct = nameProduct;
         this.descriptionProduct = descriptionProduct;
         this.dateProduct = dateProduct;
+        this.photoProduct = photoProduct;
+
     }
 
     public String getNameProduct() {
         return nameProduct;
     }
 
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
-    }
-
     public String getDescriptionProduct() {
         return descriptionProduct;
-    }
-
-    public void setDescriptionProduct(String descriptionProduct) {
-        this.descriptionProduct = descriptionProduct;
     }
 
     public String getDateProduct() {
         return dateProduct;
     }
 
-    public void setDateProduct(String dateProduct) {
-        this.dateProduct = dateProduct;
+    public String getPhotoProduct() {
+        return photoProduct;
     }
 }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">LogQualy</string>
+    <string name="form_name">Product Form</string>
 
     //Strings de logins main_activity e criar_no_usuario
     //EditText
@@ -18,6 +19,11 @@
 
     //Description
     <string name="description_imageview">ImageView activity</string>
+
+    //Strings activity_form_product_list
+    <string name="product_name">Nome do produto</string>
+    <string name="product_description">Descrição</string>
+    <string name="product_data">Data: Ex.: 1999/12/31</string>
 
 
 </resources>

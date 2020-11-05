@@ -86,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUI(FirebaseAuth.getInstance().getCurrentUser());
+    }
+
     private void updateUI(FirebaseUser user) {
         if (user != null){
             Intent intent = new Intent(MainActivity.this, ListaProdutoActivity.class);
