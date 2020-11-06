@@ -9,22 +9,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.logqualy.Constantes;
+import com.example.logqualy.ListaProdutoActivity;
 import com.example.logqualy.R;
 import com.example.logqualy.model.Produto;
 import com.example.logqualy.recyclerView.adapter.listener.ProductItemClickListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     private Context context;
-    private List<Produto> produtos;
+    private List<Produto> produtoList;
     private ProductItemClickListener onItemClickListener;
 
-    public ProductAdapter(Context context, List<Produto> produtos){
+    public ProductAdapter(Context context, List<Produto> produtoList){
         this.context = context;
-        this.produtos = produtos;
+        this.produtoList = produtoList;
         }
 
         public void setOnItemClickListener(ProductItemClickListener onItemClickListener){
@@ -40,28 +43,54 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
-        Produto produto = produtos.get(position);
+        Produto produto = produtoList.get(position);
 
         holder.vincula(produto);
     }
 
     @Override
     public int getItemCount() {
-        return produtos.size();
+        return produtoList.size();
     }
 
     public void removeProductItem(int adapterPosition){
-        produtos.remove(adapterPosition);
-        notifyDataSetChanged();
+        Produto produto = produtoList.get(adapterPosition);
+        FirebaseFirestore.getInstance()
+                .collection(Constantes.PRODUCTS_COLLECTION)
+                .document(produto.getId())
+                .delete();
+        produtoList.remove(adapterPosition);
+        notifyItemRemoved(adapterPosition);
     }
     public void alteraPosicao(int posicaoInical, int posicaoFinal){
-        Collections.swap(produtos, posicaoInical, posicaoFinal);
+        Collections.swap(produtoList, posicaoInical, posicaoFinal);
         notifyItemChanged(posicaoInical, posicaoFinal);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView textProductName;
         private TextView textProductDescription;
-        private TextView getTextProductData;
+        private TextView textProductData;
+
+        public ViewHolder(@NonNull View productView){
+            super(productView);
+            textProductName = productView.findViewById(R.id.productProduto);
+            textProductDescription = productView.findViewById(R.id.productDescricao);
+            textProductData = productView.findViewById(R.id.productData);
+        }
+        private void vincula(Produto produto){
+            textProductName.setText(produto.getNameProduct());
+            textProductDescription.setText(produto.getDescriptionProduct());
+            textProductData.setText(produto.getDateProduct());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Produto produto = produtoList.get(getAdapterPosition());
+                    onItemClickListener.productClick(produto, position);
+                }
+            });
+        }
     }
 }

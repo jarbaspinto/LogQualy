@@ -23,7 +23,7 @@
     //Strings activity_form_product_list
     <string name="product_name">Nome do produto</string>
     <string name="product_description">Descrição</string>
-    <string name="product_data">Data: Ex.: 1999/12/31</string>
+    <string name="product_data">Data: Ex.: 1999-12-31</string>
 
 
 </resources>

@@ -20,6 +20,8 @@ public class FormProductActivity extends AppCompatActivity {
     private EditText editProductDateForm;
     private Button buttonSaveForm;
     private ImageView imageViewPhoto;
+    private Boolean eFormEdit = false;
+    private Produto produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +31,52 @@ public class FormProductActivity extends AppCompatActivity {
 
         loadViews();
         clickButtons();
+
+        Intent intent = getIntent();
+        if (intent.hasExtra(Constantes.PRODUCT_EDIT)){
+            eFormEdit = true;
+            produto = (Produto) intent.getSerializableExtra(Constantes.PRODUCT_EDIT);
+            loadFormData();
+        }
+    }
+
+    private void loadFormData(){
+        editProductNameForm.setText(produto.getNameProduct());
+        editProductDescriptionForm.setText(produto.getDescriptionProduct());
+        editProductDateForm.setText(produto.getDateProduct());
     }
 
     private void clickButtons(){
         buttonSaveForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Produto produto = getProductFromForm();
-                Intent intent = new Intent(FormProductActivity.this, ListaProdutoActivity.class);
-                intent.putExtra(Constantes.PRODUCT_SAVE, produto);
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                if (eFormEdit){
+                    productUpdate();
+
+                    Intent intent = new Intent(FormProductActivity.this, ListaProdutoActivity.class);
+                    intent.putExtra(Constantes.PRODUCT_EDIT, produto);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }else{
+                    produto = getProductFromForm();
+
+                    Intent intent = new Intent(FormProductActivity.this, ListaProdutoActivity.class);
+                    intent.putExtra(Constantes.PRODUCT_SAVE, produto);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
             }
         });
+    }
+
+    private void productUpdate(){
+        String productName = editProductNameForm.getText().toString();
+        String productDescription = editProductDescriptionForm.getText().toString();
+        String productDate = editProductDateForm.getText().toString();
+
+        produto.setNameProduct(productName);
+        produto.setDescriptionProduct(productDescription);
+        produto.setDateProduct(productDate);
     }
 
     private Produto getProductFromForm(){
