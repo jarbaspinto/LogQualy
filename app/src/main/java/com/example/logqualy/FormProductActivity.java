@@ -20,7 +20,6 @@ public class FormProductActivity extends AppCompatActivity {
 
     private EditText editProductNameForm;
     private EditText editProductDescriptionForm;
-    private EditText editProductDateForm;
     private Button buttonSaveForm;
     private ImageView imageViewPhoto;
     private Intent intent;
@@ -49,7 +48,6 @@ public class FormProductActivity extends AppCompatActivity {
     private void loadFormData(){
         editProductNameForm.setText(produto.getNameProduct());
         editProductDescriptionForm.setText(produto.getDescriptionProduct());
-        editProductDateForm.setText(produto.getDateProduct());
     }
 
     @Override
@@ -88,21 +86,18 @@ public class FormProductActivity extends AppCompatActivity {
     private void productUpdate(){
         String productName = editProductNameForm.getText().toString();
         String productDescription = editProductDescriptionForm.getText().toString();
-        String productDate = editProductDateForm.getText().toString();
 
         produto.setNameProduct(productName);
         produto.setDescriptionProduct(productDescription);
-        produto.setDateProduct(productDate);
     }
 
     private void getProductFromForm(){
         if (validateForm()){
             String nameProduct = editProductNameForm.getText().toString();
             String descriptionProduct = editProductDescriptionForm.getText().toString();
-            String dateProduct = editProductDateForm.getText().toString();
             String photoProduct = "adress image";
 
-            produto = new Produto (nameProduct, descriptionProduct, dateProduct, photoProduct);
+            produto = new Produto (nameProduct, descriptionProduct, photoProduct);
         }
     }
 
@@ -125,7 +120,6 @@ public class FormProductActivity extends AppCompatActivity {
     private void loadViews(){
         editProductNameForm = findViewById(R.id.editTextProductForm);
         editProductDescriptionForm = findViewById(R.id.editTextDescriptionForm);
-        editProductDateForm = findViewById(R.id.editTextDateForm);
         buttonSaveForm = findViewById(R.id.buttonSaveProductForm);
         imageViewPhoto = findViewById(R.id.imagePhotoProductForm);
 

@@ -1,6 +1,10 @@
 package com.example.logqualy.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Produto  implements Serializable {
     private String id;
@@ -12,12 +16,17 @@ public class Produto  implements Serializable {
     public Produto() {
     }
 
-    public Produto(String nameProduct, String descriptionProduct, String dateProduct, String photoProduct) {
+    public Produto(String nameProduct, String descriptionProduct, String photoProduct) {
         this.nameProduct = nameProduct;
         this.descriptionProduct = descriptionProduct;
-        this.dateProduct = dateProduct;
         this.photoProduct = photoProduct;
 
+    }
+
+    public String getDataTime(){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     public String getId() {
@@ -30,10 +39,6 @@ public class Produto  implements Serializable {
 
     public String getDescriptionProduct() {
         return descriptionProduct;
-    }
-
-    public String getDateProduct() {
-        return dateProduct;
     }
 
     public String getPhotoProduct() {
@@ -50,10 +55,6 @@ public class Produto  implements Serializable {
 
     public void setDescriptionProduct(String descriptionProduct) {
         this.descriptionProduct = descriptionProduct;
-    }
-
-    public void setDateProduct(String dateProduct) {
-        this.dateProduct = dateProduct;
     }
 
     public void setPhotoProduct(String photoProduct) {

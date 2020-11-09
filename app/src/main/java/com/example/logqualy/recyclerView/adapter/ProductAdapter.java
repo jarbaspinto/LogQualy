@@ -90,7 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         private void vincula(Produto produto){
             textProductName.setText(produto.getNameProduct());
             textProductDescription.setText(produto.getDescriptionProduct());
-            textProductData.setText(produto.getDateProduct());
+            textProductData.setText(produto.getDataTime());
 
         }
     }

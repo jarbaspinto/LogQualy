@@ -43,27 +43,16 @@
         app:layout_constraintStart_toStartOf="@+id/editTextProductForm"
         app:layout_constraintTop_toBottomOf="@+id/editTextProductForm" />
 
-    <EditText
-        android:id="@+id/editTextDateForm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="@string/product_data"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="@+id/editTextDescriptionForm"
-        app:layout_constraintStart_toStartOf="@+id/editTextDescriptionForm"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescriptionForm" />
-
     <Button
         android:id="@+id/buttonSaveProductForm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:text="salvar"
-        app:layout_constraintEnd_toEndOf="@+id/editTextDateForm"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/editTextDateForm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ImageView
@@ -71,9 +60,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/editTextDateForm"
-        app:layout_constraintStart_toStartOf="@+id/editTextDateForm"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDateForm"
+        app:layout_constraintEnd_toEndOf="@+id/editTextDescriptionForm"
+        app:layout_constraintStart_toStartOf="@+id/editTextDescriptionForm"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescriptionForm"
         app:srcCompat="@drawable/ic_image_product" />
 
     <TextView
