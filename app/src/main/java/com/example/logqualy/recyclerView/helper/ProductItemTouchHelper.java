@@ -24,10 +24,6 @@ public class ProductItemTouchHelper extends ItemTouchHelper.Callback{
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target){
-       int inicialPosition = viewHolder.getAdapterPosition();
-       int finalPosition =  target.getAdapterPosition();
-
-       adapter.alteraPosicao(inicialPosition, finalPosition);
        return false;
     }
 

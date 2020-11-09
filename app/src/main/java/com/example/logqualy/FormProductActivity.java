@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.logqualy.model.Produto;
 
@@ -67,9 +68,11 @@ public class FormProductActivity extends AppCompatActivity {
                 if (intent.hasExtra(Constantes.EXTRA_EDIT_PRODUCT)){
                     productUpdate();
                     goToListaProdutoActivity(Constantes.PRODUCT_EDIT);
+                    Toast.makeText(getApplicationContext(),"Product Edited",Toast.LENGTH_LONG).show();
                 }else{
                     getProductFromForm();
                     goToListaProdutoActivity(Constantes.PRODUCT_SAVE);
+                    Toast.makeText(getApplicationContext(),"Product Saved",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -92,17 +95,15 @@ public class FormProductActivity extends AppCompatActivity {
         produto.setDateProduct(productDate);
     }
 
-    private Produto getProductFromForm(){
+    private void getProductFromForm(){
         if (validateForm()){
             String nameProduct = editProductNameForm.getText().toString();
             String descriptionProduct = editProductDescriptionForm.getText().toString();
             String dateProduct = editProductDateForm.getText().toString();
             String photoProduct = "adress image";
 
-            return new Produto (nameProduct, descriptionProduct, dateProduct, photoProduct);
+            produto = new Produto (nameProduct, descriptionProduct, dateProduct, photoProduct);
         }
-
-        return null;
     }
 
     private boolean validateForm(){
