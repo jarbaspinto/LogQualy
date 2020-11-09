@@ -1,11 +1,13 @@
 package com.example.logqualy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,22 +22,25 @@ public class FormProductActivity extends AppCompatActivity {
     private EditText editProductDateForm;
     private Button buttonSaveForm;
     private ImageView imageViewPhoto;
-    private Boolean eFormEdit = false;
+    private Intent intent;
     private Produto produto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_product_list);
-        setTitle("Product Register");
+
+        //adicionando o botão para voltar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadViews();
         clickButtons();
 
-        Intent intent = getIntent();
-        if (intent.hasExtra(Constantes.PRODUCT_EDIT)){
-            eFormEdit = true;
-            produto = (Produto) intent.getSerializableExtra(Constantes.PRODUCT_EDIT);
+        intent = getIntent();
+
+        if (intent.hasExtra(Constantes.EXTRA_EDIT_PRODUCT)){
+            getSupportActionBar().setTitle("Product Edit");
+            produto = (Produto) intent.getSerializableExtra(Constantes.EXTRA_EDIT_PRODUCT);
             loadFormData();
         }
     }
@@ -46,27 +51,35 @@ public class FormProductActivity extends AppCompatActivity {
         editProductDateForm.setText(produto.getDateProduct());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home){
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void clickButtons(){
         buttonSaveForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (eFormEdit){
+                if (intent.hasExtra(Constantes.EXTRA_EDIT_PRODUCT)){
                     productUpdate();
-
-                    Intent intent = new Intent(FormProductActivity.this, ListaProdutoActivity.class);
-                    intent.putExtra(Constantes.PRODUCT_EDIT, produto);
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
+                    goToListaProdutoActivity(Constantes.PRODUCT_EDIT);
                 }else{
-                    produto = getProductFromForm();
-
-                    Intent intent = new Intent(FormProductActivity.this, ListaProdutoActivity.class);
-                    intent.putExtra(Constantes.PRODUCT_SAVE, produto);
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
+                    getProductFromForm();
+                    goToListaProdutoActivity(Constantes.PRODUCT_SAVE);
                 }
             }
         });
+    }
+
+    private void goToListaProdutoActivity(String saveOrEditExtra){
+        Intent intent = new Intent(FormProductActivity.this, ListaProdutoActivity.class);
+        intent.putExtra(saveOrEditExtra, produto);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
     private void productUpdate(){

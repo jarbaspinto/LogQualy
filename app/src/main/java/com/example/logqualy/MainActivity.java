@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
         editLogin = findViewById(R.id.editTextLogin);
         editSenha = findViewById(R.id.editTextSenha);
         buttonLogin = findViewById(R.id.buttonLoginMain);

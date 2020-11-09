@@ -43,12 +43,8 @@ public class ListaProdutoActivity extends AppCompatActivity {
     private FloatingActionButton fabCriaItemList;
     private FirebaseUser user;
     private FirebaseFirestore db;
-
-    static List<Produto> produtos;
     private ProductAdapter adapter;
     private List<Produto> produtoList;
-
-    private int positionItemClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,17 +149,15 @@ public class ListaProdutoActivity extends AppCompatActivity {
     private void recyclerViewConfigure(){
         recyclerViewProductList = findViewById(R.id.recyclerViewListaProduto);
         recyclerViewProductList.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new ProductAdapter(getApplicationContext(), produtoList);
+        adapter = new ProductAdapter(this , produtoList);
         recyclerViewProductList.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new ProductItemClickListener() {
             @Override
-            public void productClick(Produto produto, int position) {
-                positionItemClick = position;
+            public void productClick(Produto produto) {
                 Intent intent = new Intent(ListaProdutoActivity.this,FormProductActivity.class);
-                intent.putExtra(Constantes.PRODUCT_EDIT, produto);
+                intent.putExtra(Constantes.EXTRA_EDIT_PRODUCT, produto);
                 startActivityForResult(intent, Constantes.REQUEST_CODE_EDIT);
-                Log.i("teste", "teste");
             }
         });
 
@@ -182,6 +176,7 @@ public class ListaProdutoActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()){
                                 Produto produto = document.toObject(Produto.class);
                                 produto.setId(document.getId());
+                                produtoList.add(produto);
                             }
 //                            produtoList = task.getResult().toObjects(Produto.class);
                             recyclerViewConfigure();

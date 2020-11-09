@@ -56,10 +56,8 @@ public class CriarNovoUsuarioActivity extends AppCompatActivity {
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                     Toast.makeText(CriarNovoUsuarioActivity.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
-                                    //updateUI(null);
+                                    updateUI(null);
                                 }
-
-                                // ...
                             }
                         });
             }

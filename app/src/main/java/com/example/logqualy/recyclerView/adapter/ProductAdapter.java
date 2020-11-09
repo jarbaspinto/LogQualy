@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,16 +37,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @NonNull
     @Override
-    public ProductAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_product,parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recycler_product,parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
         Produto produto = produtoList.get(position);
-
         holder.vincula(produto);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.productClick(produto);
+            }
+        });
     }
 
     @Override
@@ -71,26 +77,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         private TextView textProductName;
         private TextView textProductDescription;
         private TextView textProductData;
+        private ImageView imageProduct;
 
         public ViewHolder(@NonNull View productView){
             super(productView);
             textProductName = productView.findViewById(R.id.productProduto);
             textProductDescription = productView.findViewById(R.id.productDescricao);
             textProductData = productView.findViewById(R.id.productData);
+            imageProduct = productView.findViewById(R.id.imageProduct);
         }
+
         private void vincula(Produto produto){
             textProductName.setText(produto.getNameProduct());
             textProductDescription.setText(produto.getDescriptionProduct());
             textProductData.setText(produto.getDateProduct());
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Produto produto = produtoList.get(getAdapterPosition());
-                    onItemClickListener.productClick(produto, position);
-                }
-            });
         }
     }
 }
