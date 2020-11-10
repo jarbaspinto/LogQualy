@@ -1,10 +1,13 @@
 package com.example.logqualy.model;
 
+import com.google.protobuf.StringValue;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class Produto  implements Serializable {
     private String id;
@@ -16,17 +19,13 @@ public class Produto  implements Serializable {
     public Produto() {
     }
 
-    public Produto(String nameProduct, String descriptionProduct, String photoProduct) {
+    public Produto(String nameProduct, String descriptionProduct) {
+        Locale BRAZIL = new Locale("pt","BR");
         this.nameProduct = nameProduct;
         this.descriptionProduct = descriptionProduct;
-        this.photoProduct = photoProduct;
-
-    }
-
-    public String getDataTime(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
+        this.dateProduct = DateFormat.getDateInstance(DateFormat.MEDIUM, BRAZIL).format(
+                Calendar.getInstance().getTime()
+        );
     }
 
     public String getId() {
@@ -40,6 +39,16 @@ public class Produto  implements Serializable {
     public String getDescriptionProduct() {
         return descriptionProduct;
     }
+
+    public String getDateProduct() {
+        return String.valueOf(dateProduct);
+    }
+
+    //    public String getDateProduct() {
+//        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        Date date = new Date();
+//        return dateProduct = dateFormat.format(date);
+//    }
 
     public String getPhotoProduct() {
         return photoProduct;

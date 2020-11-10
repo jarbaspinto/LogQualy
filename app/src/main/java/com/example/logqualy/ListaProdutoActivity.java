@@ -32,9 +32,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ListaProdutoActivity extends AppCompatActivity {
 
@@ -45,6 +49,7 @@ public class ListaProdutoActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ProductAdapter adapter;
     private List<Produto> produtoList;
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +87,28 @@ public class ListaProdutoActivity extends AppCompatActivity {
         if (data == null) return;
         if (requestCode == Constantes.REQUEST_CODE && data.hasExtra(Constantes.PRODUCT_SAVE)){
             if (resultCode == Activity.RESULT_OK){
+                //Recuperando o obejto produto que veio do formulário
                 Produto produto = (Produto) data.getSerializableExtra(Constantes.PRODUCT_SAVE);
+                //Recuperando a imagem que veio da activity do formulário
+                byte[] byteArray1 = data.getByteArrayExtra(Constantes.EXTRA_IMAGE_PATH);
 
-                produtoList.clear();
+                //Utilizando UUID para criar um nome para arquivo
+                final String nameFile = UUID.randomUUID().toString();
 
-                db.collection(Constantes.PRODUCTS_COLLECTION).add(produto);
-                loadData();
-//                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-//                    }
-//                })
+                //Criando uma referência para o local onde a imagem será salva no storage
+                mStorageRef = FirebaseStorage.getInstance().getReference().child("image/" + nameFile);
+
+                //O metodo putBytes enviará a imagem para servidor
+                //Caso o envio dê certo produto será cadastrado no Firestore
+                mStorageRef.putBytes(byteArray1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        produto.setPhotoProduct(nameFile);
+                        db.collection(Constantes.PRODUCTS_COLLECTION).add(produto);
+                        loadData();
+                    }
+                });
 //                        .addOnFailureListener(new OnFailureListener() {
 //                            @Override
 //                            public void onFailure(@NonNull Exception e) {
@@ -105,8 +120,7 @@ public class ListaProdutoActivity extends AppCompatActivity {
         if (requestCode == Constantes.REQUEST_CODE_EDIT &&
                 data.hasExtra(Constantes.PRODUCT_EDIT)){
             if (resultCode == Activity.RESULT_OK){
-                Produto produto = (Produto)
-                        data.getSerializableExtra(Constantes.PRODUCT_EDIT);
+                Produto produto = (Produto) data.getSerializableExtra(Constantes.PRODUCT_EDIT);
                 db.collection(Constantes.PRODUCTS_COLLECTION).document(produto.getId()).set(produto);
                 loadData();
             }
